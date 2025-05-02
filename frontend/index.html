@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3DPrintCraft</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- i18next для мультиязычности -->
+  <script src="https://unpkg.com/i18next@21.6.16/i18next.min.js"></script>
+  <script src="https://unpkg.com/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+  <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="https://unpkg.com/jquery-i18next@1.2.1/dist/umd/jquery-i18next.min.js"></script>
+
+  <style>
+    /* Мини-стили для космического человечка */
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    .lang-select {
+      cursor: pointer;
+      margin-left: 15px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Навигационная панель -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">🚀 3DPrintCraft</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#" data-i18n="nav.home">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="catalog.html" data-i18n="nav.catalog">Каталог</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="service.html" data-i18n="nav.services">Услуги</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html" data-i18n="nav.contact">Контакты</a>
+          </li>
+        </ul>
+
+        <!-- Переключатель темы -->
+        <div class="theme-toggle" id="themeToggle" title="Сменить тему">🧑‍🚀</div>
+
+        <!-- Переключатель языков -->
+        <select id="languageSwitcher" class="form-select form-select-sm lang-select" style="width: auto;">
+          <option value="en">🇺🇸 EN</option>
+          <option value="ru">🇷🇺 RU</option>
+          <option value="ua">🇺🇦 UA</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент страницы -->
+  <div class="container mt-5">
+    <h1 data-i18n="main.welcome">Добро пожаловать в 3DPrintCraft!</h1>
+    <p data-i18n="main.description">Ваш лучший сервис 3D-печати моделей и заказных деталей!</p>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Скрипт темы -->
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-bs-theme');
+      html.setAttribute('data-bs-theme', currentTheme === 'light' ? 'dark' : 'light');
+    });
+  </script>
+
+  <!-- Скрипт мультиязычности -->
+  <script>
+    const resources = {
+      en: {
+        translation: {
+          nav: {
+            home: "Home",
+            catalog: "Catalog",
+            services: "Services",
+            contact: "Contact"
+          },
+          main: {
+            welcome: "Welcome to 3DPrintCraft!",
+            description: "Your best service for 3D printing models and custom parts!"
+          }
+        }
+      },
+      ru: {
+        translation: {
+          nav: {
+            home: "Главная",
+            catalog: "Каталог",
+            services: "Услуги",
+            contact: "Контакты"
+          },
+          main: {
+            welcome: "Добро пожаловать в 3DPrintCraft!",
+            description: "Ваш лучший сервис 3D-печати моделей и заказных деталей!"
+          }
+        }
+      },
+      ua: {
+        translation: {
+          nav: {
+            home: "Головна",
+            catalog: "Каталог",
+            services: "Послуги",
+            contact: "Контакти"
+          },
+          main: {
+            welcome: "Ласкаво просимо до 3DPrintCraft!",
+            description: "Ваш найкращий сервіс 3D-друку моделей та замовних деталей!"
+          }
+        }
+      }
+    };
+
+    i18next
+      .use(i18nextBrowserLanguageDetector)
+      .init({
+        resources,
+        fallbackLng: 'en',
+        debug: true
+      }, (err, t) => {
+        jqueryI18next.init(i18next, $, { useOptionsAttr: true });
+        $('body').localize();
+      });
+
+    $('#languageSwitcher').change(function() {
+      const selectedLang = $(this).val();
+      i18next.changeLanguage(selectedLang, () => {
+        $('body').localize();
+      });
+    });
+  </script>
+</body>
+</html>
